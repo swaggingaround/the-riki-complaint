@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Riki Complaint</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="dark-toggle-container">
+      <span class="dark-toggle-label">Dark Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="portal-box">
+      <h1>Welcome to The Riki Complaint, where you can act up all you want!</h1>
+      <p>Submit your (possibly made-up) complaints below, Chiara might read them. Or not. Maybe as soon as she's not overstimulated.</p>
+      <p><a href="/complaints.html">View all complaints</a></p>
+      <form id="complaintForm" action="/submit-complaint" method="POST">
+        <input type="text" id="title" name="title" placeholder="Title of your Complaint" required />
+        <textarea id="issue" name="issue" placeholder="What's bothering you? (Be dramatic as you always are)" required></textarea>
+        <label for="mood">Mood:</label>
+        <select id="mood" name="mood">
+          <option value="">Select mood</option>
+          <option value="annoyed">Annoyed (not by Chiara I hope!)</option>
+          <option value="passive-aggressive">Passive-aggressive</option>
+          <option value="crying">Crying</option>
+          <option value="actually-mad">Actually mad as FUCK you wanna throw hands</option>
+          <option value="depressed">Depressed</option>
+          <option value="school-s-driving-you-nuts">School's driving you NUTS</option>
+          <option value="ready-to-end-a-fight">Ready to end a stupid fight with your beautiful girlfriend</option>
+          <option value="emergency">EMERGENCY (Chiara will actually come to your house right away for this one NOT KIDDING - use responsibly)</option>
+          <option value="other-stuff-i-d-rather-not-say">Other stuff/I'd rather not say (Chiara reserves herself the right to extort the problem outta you ASAP)</option>
+        </select>
+        <label for="severity">Severity (1 = meh, 10 = Chiara will be on her way in five minutes): <span id="severity-value">1</span></label>
+        <input type="range" id="severity" name="severity" min="1" max="10" value="1" oninput="updateSeverityValue(this.value)" />
+        <button type="submit">Submit Complaint</button>
+      </form>
+      <div id="confirmation" class="confirmation-msg" style="display: none;">
+        Thank you, your complaint has been noted.<br>Chiara will pretend to care shortly. I'm kidding, she's probably looking at it all worried right now.
+      </div>
+    </div>
+
+    <script>
+      // Severity value update
+      function updateSeverityValue(value) {
+        const severityValue = document.getElementById('severity-value');
+        severityValue.textContent = value;
+        const red = Math.min(255, value * 25.5);
+        const green = Math.min(255, (10 - value) * 25.5);
+        severityValue.style.color = `rgb(${red}, ${green}, 0)`;
+        severityValue.style.transition = 'color 0.3s ease';
+      }
+
+      // Dark mode toggle
+      document.addEventListener('DOMContentLoaded', () => {
+        const toggle = document.getElementById('darkModeToggle');
+        if (!toggle) {
+          console.error('darkModeToggle not found!');
+          return;
+        }
+
+        // Carica lo stato del dark mode da localStorage
+        const dark = localStorage.getItem('darkMode') === 'true';
+        document.body.classList.toggle('dark-mode', dark);
+        toggle.checked = dark;
+        console.log('Initial dark mode state:', dark);
+
+        toggle.addEventListener('change', () => {
+          document.body.classList.toggle('dark-mode');
+          const isDarkMode = document.body.classList.contains('dark-mode');
+          localStorage.setItem('darkMode', isDarkMode);
+          console.log('Dark mode toggled:', isDarkMode);
+          applyMoodClass(); // Aggiorna i mood
+          // Reset forzato per "ready-to-end-a-fight"
+          const mood = document.getElementById('mood').value;
+          if (mood === 'ready-to-end-a-fight') {
+            document.body.className = isDarkMode ? 'dark-mode' : '';
+            setTimeout(() => {
+              const moodClass = isDarkMode ? 'darkmode-ready-to-end-a-fight' : 'mood-ready-to-end-a-fight';
+              document.body.classList.add(moodClass);
+              // Forza il background con un flag temporaneo
+              document.body.style.background = '';
+              document.body.offsetHeight; // Forza repaint
+              document.body.style.background = isDarkMode
+                ? 'linear-gradient(135deg, #4a148c, #1a237e)'
+                : 'linear-gradient(135deg, #ffebf0, #e3f2fd)';
+              console.log('Forced class application:', moodClass);
+              console.log('Computed background after force:', getComputedStyle(document.body).background);
+              console.log('Glitter ::before animation:', getComputedStyle(document.body, '::before').animation);
+              console.log('Glitter ::after animation:', getComputedStyle(document.body, '::after').animation);
+              // Forza un altro repaint
+              document.body.style.opacity = '0.99';
+              document.body.offsetHeight;
+              document.body.style.opacity = '';
+            }, 150); // Aumentato a 150ms
+          }
+        });
+      });
+
+      // Gestione del form
+      document.addEventListener('DOMContentLoaded', () => {
+        const complaintForm = document.getElementById('complaintForm');
+        const confirmationMsg = document.getElementById('confirmation');
+
+        if (!complaintForm || !confirmationMsg) {
+          console.error('complaintForm or confirmationMsg not found!');
+          return;
+        }
+
+        // Controlla se la pagina è stata caricata dopo un invio
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('submitted') === 'true') {
+          confirmationMsg.style.display = 'block';
+        }
+
+        complaintForm.addEventListener('submit', (event) => {
+          console.log('Form submitted manually by user');
+          confirmationMsg.style.display = 'block';
+        });
+
+        console.log('Page loaded, checking for automatic form submission');
+      });
+
+      // Mood-based styles
+      document.addEventListener('DOMContentLoaded', () => {
+        const moodSelect = document.getElementById('mood');
+        if (!moodSelect) {
+          console.error('moodSelect not found!');
+          return;
+        }
+
+        function applyMoodClass() {
+          console.log('Applying mood:', moodSelect.value);
+          const isDarkMode = document.body.classList.contains('dark-mode');
+          const prefix = isDarkMode ? 'darkmode-' : 'mood-';
+          const moodClassesLight = [
+            'mood-annoyed',
+            'mood-passive-aggressive',
+            'mood-crying',
+            'mood-actually-mad',
+            'mood-depressed',
+            'mood-school-s-driving-you-nuts',
+            'mood-ready-to-end-a-fight',
+            'mood-emergency',
+            'mood-other-stuff-i-d-rather-not-say'
+          ];
+          const moodClassesDark = [
+            'darkmode-annoyed',
+            'darkmode-passive-aggressive',
+            'darkmode-crying',
+            'darkmode-actually-mad',
+            'darkmode-depressed',
+            'darkmode-school-s-driving-you-nuts',
+            'darkmode-ready-to-end-a-fight',
+            'darkmode-emergency',
+            'darkmode-other-stuff-i-d-rather-not-say'
+          ];
+
+          // Log dettagliato delle classi attuali
+          console.log('Current body classes before applying mood:', [...document.body.classList]);
+
+          // Reset completo delle classi del body (tranne dark-mode)
+          const preservedClasses = ['dark-mode'].filter(cls => document.body.classList.contains(cls));
+          document.body.className = preservedClasses.join(' ');
+
+          // Rimuovi tutte le classi dei mood (light e dark) esplicitamente
+          moodClassesLight.forEach(cls => document.body.classList.remove(cls));
+          moodClassesDark.forEach(cls => document.body.classList.remove(cls));
+
+          // Applica la classe corretta in base al dark mode
+          const mood = moodSelect.value;
+          if (mood) {
+            const moodClass = `${prefix}${mood}`;
+            document.body.classList.add(moodClass);
+            console.log('Added mood class:', moodClass);
+            console.log('Current body classes after applying mood:', [...document.body.classList]);
+            const computedStyle = getComputedStyle(document.body);
+            console.log('Computed background-color:', computedStyle.backgroundColor);
+            console.log('Computed color:', computedStyle.color);
+            if (mood === 'ready-to-end-a-fight') {
+              console.log('Glitter animation should be applied for:', moodClass);
+              console.log('Computed animation (before/after):',
+                getComputedStyle(document.body, '::before').animation,
+                getComputedStyle(document.body, '::after').animation
+              );
+            }
+          } else {
+            console.log('No mood selected');
+          }
+
+          // Forza un ricalcolo degli stili
+          setTimeout(() => {
+            document.body.style.opacity = '0.99';
+            document.body.offsetHeight;
+            document.body.style.opacity = '';
+          }, 150);
+        }
+
+        // Aggiorna i mood quando cambia il valore del select o il dark mode
+        moodSelect.addEventListener('change', () => {
+          console.log('Mood select changed:', moodSelect.value);
+          applyMoodClass();
+        });
+
+        // Aggiorna i mood quando cambia il dark mode
+        const toggle = document.getElementById('darkModeToggle');
+        toggle.addEventListener('change', () => {
+          applyMoodClass();
+        });
+
+        // Applica il mood iniziale
+        applyMoodClass();
+
+        // Forza un aggiornamento al caricamento della pagina
+        window.addEventListener('load', () => {
+          console.log('Window loaded, forcing mood class update');
+          applyMoodClass();
+        });
+      });
+    </script>
+    <style>
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .confirmation-msg {
+        animation: fadeIn 1s forwards;
+      }
+    </style>
+  </body>
+</html>

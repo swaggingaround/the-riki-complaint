@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Complaints</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="dark-toggle-container">
+    <span class="dark-toggle-label">Dark Mode</span>
+    <label class="switch">
+      <input type="checkbox" id="darkModeToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="portal-box">
+    <h1>Chiara's Complaint List</h1>
+    <p>Enter the password to view all complaints submitted to The Riki Complaint!</p>
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="loadComplaints()">View Complaints</button>
+    <div id="complaint-list"></div>
+    <a href="/portal.html">Back to Submit a Complaint</a>
+    <canvas id="moodChart" style="max-width: 400px; margin: 2em auto;"></canvas>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('darkModeToggle');
+      if (!toggle) {
+        console.error('darkModeToggle not found!');
+        return;
+      }
+
+      const dark = localStorage.getItem('darkMode') === 'true';
+      document.body.classList.toggle('dark-mode', dark);
+      toggle.checked = dark;
+      console.log('Initial dark mode state:', dark);
+
+      toggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        console.log('Dark mode toggled:', isDarkMode);
+        // Ricalcola il grafico se esiste
+        const chart = Chart.getChart('moodChart');
+        if (chart) chart.update();
+      });
+    });
+
+    function loadComplaints() {
+      const password = document.getElementById('password').value;
+      fetch('/get-complaints?password=' + password)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Access denied');
+          }
+          return response.json();
+        })
+        .then(complaints => {
+          const complaintList = document.getElementById('complaint-list');
+          complaintList.innerHTML = '';
+          if (complaints.length === 0) {
+            complaintList.innerHTML = '<p>No complaints yet!</p>';
+          } else {
+            complaints.forEach(complaint => {
+              const complaintDiv = document.createElement('div');
+              complaintDiv.className = 'complaint';
+              complaintDiv.innerHTML = `
+                <h3>${complaint.title}</h3>
+                <p><strong>Issue:</strong> ${complaint.issue}</p>
+                <p><strong>Mood:</strong> ${complaint.mood}</p>
+                <p><strong>Severity:</strong> ${complaint.severity}</p>
+                <p><strong>Submitted:</strong> ${new Date(complaint.timestamp).toLocaleString()}</p>
+              `;
+              complaintList.appendChild(complaintDiv);
+            });
+          }
+          // Aggiorna il grafico con i nuovi dati
+          updateMoodChart(complaints);
+        })
+        .catch(error => {
+          console.error('Error loading complaints:', error);
+          document.getElementById('complaint-list').innerHTML = '<p class="error-msg">Access denied or error loading complaints.</p>';
+        });
+    }
+
+    function updateMoodChart(complaints) {
+      const moodCount = {};
+      complaints.forEach(c => {
+        moodCount[c.mood] = (moodCount[c.mood] || 0) + 1;
+      });
+
+      const ctx = document.getElementById('moodChart').getContext('2d');
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      const legendColor = isDarkMode ? '#fff' : '#000';
+
+      let chart = Chart.getChart('moodChart');
+      if (chart) chart.destroy();
+
+      chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(moodCount).filter(label => label), // Filtra etichette vuote
+          datasets: [{
+            label: 'Mood Breakdown',
+            data: Object.values(moodCount).filter(v => v > 0), // Filtra dati vuoti
+            backgroundColor: [
+              '#FF6384', '#36A2EB', '#FFCE56', '#cc65fe', '#ff9f40', '#8bc34a', '#009688', '#e91e63', '#3f51b5'
+            ]
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              labels: {
+                color: legendColor // Colore della leggenda adattato al tema
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Carica il grafico all'avvio con la password predefinita
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/get-complaints?password=thebestgirlfriend')
+        .then(response => response.json())
+        .then(data => updateMoodChart(data))
+        .catch(err => console.error('Errore nel caricare i complaint:', err));
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

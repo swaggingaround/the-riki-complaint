@@ -1,0 +1,21 @@
+{
+  "name": "the-riki-complaint",
+  "version": "1.0.0",
+  "description": "A fun site for a fun boyfriend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.13"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://the-riki-complaint.glitch.me"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}

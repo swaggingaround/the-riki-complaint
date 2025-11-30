@@ -1,0 +1,533 @@
+/* Reset base e stili generali */
+body {
+  margin: 0;
+  padding: 2rem;
+  font-family: 'Georgia', serif; /* Font elegante */
+  background-color: #FFE6F0; /* Rosa pallido */
+  color: #333333; /* Nero morbido per il testo */
+  text-align: center;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Necessario per i pseudo-elementi dei glitter */
+  overflow: hidden; /* Evita che i glitter escano dal body */
+}
+
+/* Dark mode per il body */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Stili per la portal box */
+.portal-box {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 15px;
+  background: #FFFFFF; /* Bianco perla */
+  box-shadow: 0 0 10px rgba(255, 209, 220, 0.7), 0 0 20px rgba(255, 105, 180, 0.5); /* Glow rosa tenue */
+  border: 2px solid #FFD1DC; /* Bordo rosa chiaro */
+  transition: background-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  position: relative; /* Assicura che la portal-box sia sopra i glitter */
+  z-index: 1; /* Sopra i glitter */
+}
+
+/* Dark mode per la portal box */
+body.dark-mode .portal-box {
+  background-color: #1f1f1f;
+  box-shadow: 0 0 15px #FFD1DC, 0 0 25px #FFD1DC, 0 0 35px #FF69B4;
+  color: #e0e0e0;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+}
+
+/* Stili per la login box (con glow originale e larghezza aumentata) */
+.login-box {
+  max-width: 1000px; /* Aumentata a 1000px */
+  margin: auto;
+  padding: 2rem;
+  border-radius: 15px;
+  background: #FFFFFF; /* Bianco perla */
+  box-shadow: 0 0 10px rgba(255, 209, 220, 0.7), 0 0 20px rgba(255, 105, 180, 0.5); /* Glow rosa tenue originale */
+  border: 2px solid #FFD1DC; /* Bordo rosa chiaro */
+  transition: background-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+/* Dark mode per la login box */
+body.dark-mode .login-box {
+  background-color: #1f1f1f;
+  box-shadow: 0 0 10px rgba(255, 209, 220, 0.7), 0 0 20px rgba(255, 105, 180, 0.5); /* Manteniamo il glow originale */
+  color: #e0e0e0;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+}
+
+/* Stili per gli input nella login box (allineamento migliorato) */
+.login-box input,
+.login-box textarea,
+.login-box select {
+  display: block;
+  width: calc(100% - 2rem); /* Considera il padding della login-box */
+  margin: 0.5em auto; /* Centrato con margine uniforme */
+  padding: 0.8em;
+  border: 1px solid #FFD1DC; /* Bordo rosa chiaro */
+  border-radius: 5px;
+  background-color: #FFF5F7; /* Sfondo leggermente rosato */
+  color: #333333;
+  font-family: 'Georgia', serif;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+body.dark-mode .login-box input,
+body.dark-mode .login-box textarea,
+body.dark-mode .login-box select {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+/* Stili per i titoli */
+h1 {
+  color: #FF69B4; /* Rosa Barbie brillante */
+  font-size: 2em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  transition: color 0.5s ease;
+}
+
+body.dark-mode h1 {
+  color: #FF69B4; /* Manteniamo il rosa brillante */
+  transition: color 0.5s ease;
+}
+
+/* Stili per i paragrafi */
+p {
+  color: #4A4A4A; /* Grigio scuro per leggibilità */
+  margin: 0.5em 0;
+  transition: color 0.5s ease;
+}
+
+body.dark-mode p {
+  color: #e0e0e0;
+  transition: color 0.5s ease;
+}
+
+/* Stili per i link */
+a {
+  color: #FF69B4;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #FF1493; /* Rosa più scuro */
+  text-decoration: underline;
+}
+
+body.dark-mode a {
+  color: #FFD1DC;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode a:hover {
+  color: #FF69B4;
+  transition: color 0.3s ease;
+}
+
+/* Stili per gli input e select nella portal box */
+.portal-box input,
+.portal-box textarea,
+.portal-box select {
+  display: block;
+  width: 100%;
+  margin: 0.5em 0;
+  padding: 0.8em;
+  border: 1px solid #FFD1DC; /* Bordo rosa chiaro */
+  border-radius: 5px;
+  background-color: #FFF5F7; /* Sfondo leggermente rosato */
+  color: #333333;
+  font-family: 'Georgia', serif;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+body.dark-mode .portal-box input,
+body.dark-mode .portal-box textarea,
+body.dark-mode .portal-box select {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+/* Stili per il range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #FFD1DC, #FF69B4); /* Gradiente rosa */
+  border-radius: 5px;
+  outline: none;
+  transition: background 0.5s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #FFD700; /* Dorato */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode input[type="range"] {
+  background: linear-gradient(to right, #555, #FF69B4);
+  transition: background 0.5s ease;
+}
+
+body.dark-mode input[type="range"]::-webkit-slider-thumb {
+  background: #FFD700;
+}
+
+/* Stili per i pulsanti */
+button {
+  background-color: #FF69B4; /* Rosa Barbie */
+  color: #FFFFFF;
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: 5px;
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #FF1493; /* Rosa più scuro */
+  transform: scale(1.05);
+}
+
+body.dark-mode button {
+  background-color: #FF69B4;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+body.dark-mode button:hover {
+  background-color: #FF1493;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Stili per le etichette */
+label {
+  color: #4A4A4A;
+  font-weight: bold;
+  transition: color 0.5s ease;
+}
+
+body.dark-mode label {
+  color: #e0e0e0;
+  transition: color 0.5s ease;
+}
+
+/* Stile per il messaggio di conferma */
+.confirmation-msg {
+  color: #FF69B4;
+  font-style: italic;
+  margin-top: 1em;
+  transition: color 0.5s ease;
+}
+
+body.dark-mode .confirmation-msg {
+  color: #FFD1DC;
+  transition: color 0.5s ease;
+}
+
+/* Toggle switch */
+.dark-toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  background-color: rgba(255, 240, 245, 0.9); /* Rosa chiaro semi-trasparente */
+  padding: 0.4em 0.8em;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(255, 209, 220, 0.7), 0 0 20px rgba(255, 105, 180, 0.5); /* Glow rosa tenue */
+  z-index: 1000; /* Sopra i glitter */
+  font-family: 'Georgia', serif;
+  white-space: nowrap;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+body.dark-mode .dark-toggle-container {
+  background-color: rgba(31, 31, 31, 0.9);
+  box-shadow: 0 0 15px #FFD1DC, 0 0 25px #FFD1DC, 0 0 35px #FF69B4;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.dark-toggle-label {
+  color: #4A4A4A;
+  font-weight: bold;
+  font-size: 1em;
+  transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+.dark-toggle-label::after {
+  content: " 🖤"; /* Cuore nero in light mode */
+  text-shadow: 0 0 10px #4A4A4A, 0 0 20px #4A4A4A;
+}
+
+body.dark-mode .dark-toggle-label {
+  color: #FFD1DC;
+  transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+body.dark-mode .dark-toggle-label::after {
+  content: " 🌙"; /* Luna in dark mode */
+  text-shadow: 0 0 10px #FFD1DC, 0 0 20px #FFD1DC, 0 0 30px #FF69B4;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: background-color 0.5s ease;
+  border-radius: 34px;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: transform 0.4s ease;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #666;
+  transition: background-color 0.5s ease;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+  transition: transform 0.4s ease;
+}
+
+/* Mood themes (light) */
+body.mood-annoyed {
+  background-color: #fff3cd !important;
+  color: #856404 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-passive-aggressive {
+  background-color: #e8e6ff !important;
+  color: #5a54a4 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-crying {
+  background-color: #e0f7fa !important;
+  color: #006064 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-actually-mad {
+  background-color: #ffebee !important;
+  color: #b71c1c !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-depressed {
+  background-color: #eceff1 !important;
+  color: #37474f !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-school-s-driving-you-nuts {
+  background-color: #fce4ec !important;
+  color: #880e4f !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-ready-to-end-a-fight {
+  background: linear-gradient(135deg, #ffebf0, #e3f2fd) !important;
+  color: #4a148c !important;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+body.mood-ready-to-end-a-fight::before,
+body.mood-ready-to-end-a-fight::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.3) 2px, transparent 3px); /* Glitter rosa */
+  background-size: 50px 50px; /* Dimensione aumentata per meno densità */
+  opacity: 0.2; /* Opacità ridotta */
+  animation: glitter-sparkle 3s infinite linear; /* Animazione più lenta */
+  pointer-events: none; /* Non intercetta i clic */
+  z-index: -1; /* Sotto tutti gli elementi */
+  transition: background 0.5s ease, opacity 0.5s ease;
+}
+
+body.mood-ready-to-end-a-fight::after {
+  animation-delay: 1.5s;
+}
+
+body.mood-emergency {
+  background-color: #FF69B4 !important; /* Hot pink brillante per un'emergenza chic */
+  color: #FFFFFF !important; /* Testo bianco per contrasto elegante */
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.mood-other-stuff-i-d-rather-not-say {
+  background-color: #ede7f6 !important;
+  color: #512da8 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Mood themes (dark) - Specificità aumentata */
+body.dark-mode.darkmode-annoyed {
+  background-color: #5c3c00 !important;
+  color: #ffecb3 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-passive-aggressive {
+  background-color: #1a1a2e !important;
+  color: #aaaaff !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-crying {
+  background-color: #00363a !important;
+  color: #a7ffeb !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-actually-mad {
+  background-color: #5f2121 !important;
+  color: #ffcdd2 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-depressed {
+  background-color: #263238 !important;
+  color: #cfd8dc !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-school-s-driving-you-nuts {
+  background-color: #4a0033 !important;
+  color: #ff80ab !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-ready-to-end-a-fight {
+  background: linear-gradient(135deg, #4a148c, #1a237e) !important;
+  color: #f3e5f5 !important;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-ready-to-end-a-fight::before,
+body.dark-mode.darkmode-ready-to-end-a-fight::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 2px, transparent 3px); /* Glitter bianchi */
+  background-size: 50px 50px; /* Dimensione aumentata per meno densità */
+  opacity: 0.25; /* Opacità ridotta */
+  animation: glitter-sparkle 3s infinite linear; /* Animazione più lenta */
+  pointer-events: none; /* Non intercetta i clic */
+  z-index: -1; /* Sotto tutti gli elementi */
+  transition: background 0.5s ease, opacity 0.5s ease;
+}
+
+body.dark-mode.darkmode-ready-to-end-a-fight::after {
+  animation-delay: 1.5s;
+}
+
+body.dark-mode.darkmode-emergency {
+  background-color: #C71585 !important; /* Hot pink scuro per un'emergenza chic in dark mode */
+  color: #FFD1DC !important; /* Rosa chiaro per il testo */
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode.darkmode-other-stuff-i-d-rather-not-say {
+  background-color: #311b92 !important;
+  color: #d1c4e9 !important;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Nuova animazione glitter con effetto scintillio */
+@keyframes glitter-sparkle {
+  0% {
+    background-position: 0 0;
+    opacity: 0.2;
+  }
+  50% {
+    background-position: 50px 50px;
+    opacity: 0.25;
+  }
+  100% {
+    background-position: 0 0;
+    opacity: 0.2;
+  }
+}
+
+/* Stili per i box dei reclami - Specificità aumentata */
+div.complaint {
+  border: 1px solid #FFD1DC !important;
+  padding: 1em !important;
+  margin: 1em 0 !important;
+  border-radius: 5px !important;
+  background-color: #FFF5F7 !important;
+  transition: all 0.5s ease !important;
+  color: #333333 !important;
+}
+
+body.dark-mode div.complaint {
+  border: 1px solid #555 !important;
+  background-color: #333 !important;
+  color: #e0e0e0 !important;
+  transition: all 0.5s ease !important;
+}

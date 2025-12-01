@@ -10,11 +10,6 @@
     "express": "^4.21.1",
     "resend": "^4.0.0"
   },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://the-riki-complaint.glitch.me"
-  },
   "engines": {
     "node": "18.x"
   }

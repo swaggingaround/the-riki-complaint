@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 const DATA_FILE = path.join('/tmp', 'complaints.json');
 
 // Resend (usa solo la tua API key)
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 'fallback-key-per-test');
 
 // LOGIN Riki
 app.post('/login', (req, res) => {

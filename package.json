@@ -1,7 +1,6 @@
 {
   "name": "the-riki-complaint",
   "version": "1.0.0",
-  "description": "A fun site for a fun boyfriend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
